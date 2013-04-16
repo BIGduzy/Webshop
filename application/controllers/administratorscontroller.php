@@ -5,7 +5,7 @@
 	{
 		$this->set("header", "Dit is de admin homepage");
 	}
-	
+
 	public function viewall()
 	{
 		$this->set('header', 'Geregistreerde gebruikers van de webshop');
@@ -29,11 +29,11 @@
 									</a>
 								</td>
 						    </tr>";
-		
+
 		}
 		$this->set('show_users', $show_table);
 	}
-	
+
 	public function add_user()
 	{
 		if (isset($_POST['submit']))
@@ -54,13 +54,13 @@
 			$this->set('header', 'Voeg een gebruiker toe');
 		}
 	}
-	
+
 	public function remove_user($id)
 	{
 		$this->_model->remove_user($id);
 		header('location:../viewall');
 	}
-	
+
 	public function update_user($id)
 	{
 		if (isset($_POST['submit']))
@@ -72,8 +72,27 @@
 		{
 			$user = $this->_model->find_user_by_id($id);
 			//var_dump($user);
+			$get_userroles = $this->_model->select_all_userroles();
+			//var_dump($get_userroles);
+			$userroles = "";
+			foreach ($get_userroles as $value)
+			{
+				if ( $value['Userrole']['role'] == $user['Userrole']['role'])
+				{
+					$selected = "selected";
+				}
+				else
+				{
+					$selected = "";
+				}
+				$userroles .= "<option value='".$value['Userrole']['role']."' ".$selected.">".
+									$value['Userrole']['role'].
+							  "</option>";
+			}
 			$this->set('user', $user);
 			$this->set('header', 'Wijzig het onderstaande record');
+			$this->set('userroles', $userroles);
+			$this->set('id', $id);
 		}
 	}
  }

@@ -7,13 +7,13 @@
 							 FROM `users`, `userroles`
 							 WHERE `users`.`user_id` = `userroles`.`userrole_id`");
 	}
-	
+
 	public function select_all_userroles()
 	{
 		$query = "SELECT DISTINCT `role` FROM `userroles`";
 		return $this->query($query);
 	}
-	
+
 	public function insert_into_users($post)
 	{
 		$query =  "INSERT INTO `logins` ( `login_id`,
@@ -24,7 +24,7 @@
 										 '".$post['password']."')";
 		$this->query($query);
 		$id = $this->find_last_inserted_id();
-		
+
 		$query = "INSERT INTO `users` ( `user_id`,
 										`firstname`,
 										`infix`,
@@ -40,12 +40,12 @@
 											'".$post['userrole']."')";
 		$this->query($query);
 	}
-	
+
 	public function remove_user($id)
 	{
 		$this->query("DELETE FROM `users` WHERE `user_id` = '".$id."'");
 	}
-	
+
 	public function update_user($id, $post)
 	{
 		$query = "UPDATE `users` SET `firstname` = '".$post['firstname']."',
@@ -53,11 +53,19 @@
 									 `surname`	 = '".$post['surname']."'
 				  WHERE				 `user_id`	 = '".$id."'";
 		$this->query($query);
+		$query = "UPDATE `userroles` SET `role` = '".$post['userrole']."'
+				  WHERE  `userroles`.`userrole_id` = '".$id."'";
+		echo $query;
+		$this->query($query);
 	}
-	
+
 	public function find_user_by_id($id)
 	{
-		return $this->query("SELECT * FROM `users` WHERE `user_id` = '".$id."'", 1);
+		$query = "SELECT * FROM `users`, `userroles`
+							 WHERE `user_id` = '".$id."'
+							 AND `users`.`user_id` = `userroles`.`userrole_id`";
+		//echo $query;exit();
+		return $this->query($query, 1);
 	}
  }
 ?>

@@ -20,8 +20,50 @@
 				  WHERE  `userroles`.`userrole_id` = `logins`.`login_id`
 				  AND    `logins`.`username` = '".$post['username']."'
 				  AND	 `logins`.`password` = '".$post['password']."'";
+		//echo $query;exit();
 		return $this->query($query);
 	
+	}
+	
+	public function insert_register_data($post)
+	{
+		$query =  "INSERT INTO `logins` ( `login_id`,
+										 `username`,
+										 `password`)
+				  VALUES			   ( NULL,
+										 '".$post['emailaddress']."',
+										 '".$post['password']."')";
+		$this->query($query);
+		
+		$query = "INSERT INTO `users` ( `user_id`,
+										`firstname`,
+										`infix`,
+										`surname`,
+										`street`,
+										`housenumber`,
+										`zipcode`,
+										`residence`,
+										`phonenumber`,
+										`mobilephonenumber`)
+				  VALUES			  ( '".$id."',
+										'".$post['firstname']."',
+										'".$post['infix']."',
+										'".$post['surname']."',
+										'".$post['street']."',
+										'".$post['housenumber']."',
+										'".$post['zipcode']."',
+										'".$post['residence']."',
+										'".$post['phonenumber']."',
+										'".$post['mobilephonenumber']."')";
+		$this->query($query);
+		
+		$query = "INSERT INTO `userroles` ( `userrole_id`,
+											`role`)
+				  VALUES				  ( '".$id."',
+											'')";
+		$this->query($query);
+		
+		echo $query; exit();
 	}
  }
 ?>
