@@ -2,22 +2,22 @@
 <table>
 	<form action='../update_user/<?php echo $id; ?>' method='post'>
 		<tr>
-			<td>voornaam</td>
+			<td>Voornaam</td>
 			<td><input type='text' name='firstname'
 						value='<?php echo $user['User']['firstname']; ?>' /></td>
 		</tr>
 		<tr>
-			<td>tussenvoegsel</td>
+			<td>Tussenvoegsel</td>
 			<td><input type='text' name='infix' 
 						value='<?php echo $user['User']['infix']; ?>' /></td>
 		</tr>
 		<tr>
-			<td>achternaam</td>
+			<td>Achternaam</td>
 			<td><input type='text' name='surname'
 						value='<?php echo $user['User']['surname']; ?>' /></td>
 		</tr>
 		<tr>
-			<td>gebruikersrol</td>
+			<td>Gebruikersrol</td>
 			<td>
 				<select name='userrole'>
 					<?php echo $userroles; ?>
