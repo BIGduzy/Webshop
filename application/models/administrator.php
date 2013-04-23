@@ -67,5 +67,10 @@
 		//echo $query;exit();
 		return $this->query($query, 1);
 	}
+	
+	public function insert_item_into()
+	{
+	
+	}
  }
 ?>

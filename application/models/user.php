@@ -1,7 +1,5 @@
 <?php
  class User extends Model
- <?php
- class User extends Model
  {
 
 	public function select_all()

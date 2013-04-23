@@ -95,5 +95,14 @@
 			$this->set('id', $id);
 		}
 	}
+	
+	public function add_product()
+	{
+			if ( isset($_POST['submit']))
+			{
+			
+			}
+			$this->set('header', 'Voeg een product toe');
+	}
  }
 ?>
