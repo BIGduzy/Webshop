@@ -95,14 +95,117 @@
 			$this->set('id', $id);
 		}
 	}
-	
+
 	public function add_product()
 	{
-			if ( isset($_POST['submit']))
+		if ( isset($_POST['submit']) )
+		{
+			$mime_type = array('image/png', 'image/jpeg', 'image/pjpeg', 'image/gif');
+			if (in_array( $_FILES['foto']['type'], $mime_type))
 			{
-			
+				$dir = 'fotos/';
+				if ( !file_exists($dir) )
+				{
+					//Maak een directory aan.
+					mkdir($dir, 0777, true);
+					//Maak daarin een thumbnaildirectory aan.
+					mkdir($dir."thumbnails/", 0777, true);
+				}				
+				//Check of de file die we gaan opslaan wel een geuploade file is uit het formulier
+				if (is_uploaded_file($_FILES['foto']['tmp_name']))
+				{
+					//Verplaats het bestand van de tijdelijke directory naar de directory van de klant
+					move_uploaded_file($_FILES['foto']['tmp_name'], $dir.$_FILES['foto']['name']);
+				}
+
+				//Het maken van de thumbnail
+				//Stel een standaard breedte en hoogte in voor de thumbnail
+				define('THUMB_SIZE', 80);
+				//Pad naar de grote foto
+				$path_photo = $dir.$_FILES['foto']['name'];
+				//Definieer het pad naar de thumbnail
+				$path_thumbnail = $dir."thumbnails/tn_".$_FILES['foto']['name'];
+				//Vraag de hoogte en de breedte op van de originele foto $specs_image[0] = breedte $specs_image[1] = hoogte 
+				$specs_image = getimagesize($path_photo);
+				//De verhouding berekenen
+				$ratio_image = $specs_image[0]/$specs_image[1];
+				//Als $ratio_image > 1 => landscape foto. Als $ratio_image < 1 => portrait foto. Als $ratio_image = 1 => square foto.
+				if ($ratio_image >= 1)
+				{
+					//Landscape
+					$tn_width = THUMB_SIZE;
+					$tn_height = THUMB_SIZE/$ratio_image; 
+				}
+				else
+				{
+					//Portrait
+					$tn_height = THUMB_SIZE;
+					$tn_width = THUMB_SIZE * $ratio_image;
+				}
+				//Dit is het zwarte stuk karton waarop de foto wordt geplakt
+				$thumb = imagecreatetruecolor($tn_width, $tn_height);
+
+				//Kijk van welk mime-type de foto is
+				switch ($_FILES['foto']['type'])
+				{
+					case 'image/jpeg':
+						//Dit wordt het fotootje dat er wordt opgeplakt
+						$source = imagecreatefromjpeg($path_photo);
+						//Deze funktie bepaalt hoe de foto op het zwarte stuk karton wordt geplakt
+						imagecopyresampled($thumb,
+										   $source,
+										   0,
+										   0,
+										   0,
+										   0,
+										   $tn_width,
+										   $tn_height,
+										   $specs_image[0],
+										   $specs_image[1]);
+						imagejpeg($thumb, $path_thumbnail, 100);
+						break;
+					case 'image/png':
+						//Dit wordt het fotootje dat er wordt opgeplakt
+						$source = imagecreatefrompng($path_photo);
+						//Deze funktie bepaalt hoe de foto op het zwarte stuk karton wordt geplakt
+						imagecopyresampled($thumb,
+										   $source,
+										   0,
+										   0,
+										   0,
+										   0,
+										   $tn_width,
+										   $tn_height,
+										   $specs_image[0],
+										   $specs_image[1]);
+						imagepng($thumb, $path_thumbnail, 9);			
+						break;
+					case 'image/gif':
+						//Dit wordt het fotootje dat er wordt opgeplakt
+						$source = imagecreatefromgif($path_photo);
+						//Deze funktie bepaalt hoe de foto op het zwarte stuk karton wordt geplakt
+						imagecopyresampled($thumb,
+										   $source,
+										   0,
+										   0,
+										   0,
+										   0,
+										   $tn_width,
+										   $tn_height,
+										   $specs_image[0],
+										   $specs_image[1]);
+						imagegif($thumb, $path_thumbnail);	
+						break;		
+				}
 			}
-			$this->set('header', 'Voeg een product toe');
+			else
+			{
+
+			}
+			$this->_model->insert_item_into_products($_POST, $_FILES);
+		}
+		$this->set('header', 'Voeg een product toe');
+
 	}
  }
 ?>

@@ -67,10 +67,21 @@
 		//echo $query;exit();
 		return $this->query($query, 1);
 	}
-	
-	public function insert_item_into()
+
+	public function insert_item_into_products($post, $files)
 	{
-	
+		//var_dump($files);		
+		$query = "INSERT INTO `products` ( `product_id`,
+										   `product_name`,
+										   `product_description`,
+										   `product_price`,
+										   `foto_name`)
+							VALUES		 ( NULL,
+										   '".$post['product_name']."',
+										   '".$post['product_description']."',
+										   '".$post['product_price']."',
+										   '".$files['foto']['name']."')";
+		$this->query($query);
 	}
  }
 ?>
