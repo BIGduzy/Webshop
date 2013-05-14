@@ -1,6 +1,6 @@
 <h3><?php echo $header; ?></h3>
 <table>
- <form action='../administrators/add_product' method='post' enctype='multipart/form-data'>
+ <form action='<?php BASE_URL ?>add_product' method='post' enctype='multipart/form-data'>
 	<tr>
 		<td>
 			productnaam

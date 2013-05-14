@@ -30,7 +30,7 @@ td
 			<td>&nbsp;</td>
 			<td class='table_title'><?php echo $header; ?></td>
 		</tr>
-	<form action='./add_user' method='post'>
+	<form action='<?php BASE_URL ?>add_user' method='post'>
 		<tr>
 			<td>Voornaam</td>
 			<td><input type='text' name='firstname' /></td>

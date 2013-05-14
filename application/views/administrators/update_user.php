@@ -1,6 +1,6 @@
 <p><h3><?php echo $header; ?></h3></p>
 <table>
-	<form action='../update_user/<?php echo $id; ?>' method='post'>
+	<form action='<?php echo BASE_URL ?>administrators/update_user<?php echo $id; ?>' method='post'>
 		<tr>
 			<td>Voornaam</td>
 			<td><input type='text' name='firstname'

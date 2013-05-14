@@ -47,7 +47,7 @@ button
 <button id='login'>login</button>
 <div id='dialogformlogin'>
 <table>
-	<form action='../users/login' method='post' >
+	<form action='<?php echo BASE_URL; ?>users/login' method='post' >
 		<tr>
 			<td>gebruikersnaam</td>
 			<td><input type='text' name='username' /></td>

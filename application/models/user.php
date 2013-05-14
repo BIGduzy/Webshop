@@ -56,5 +56,11 @@
 		$query = "SELECT * FROM `products` LIMIT ".$limit." OFFSET ".$offset;
 		return $this->query($query);
 	}
+
+	public function all_products()
+	{
+		$query = "SELECT * FROM `products`";
+		return $this->query($query);
+	}
  }
 ?>

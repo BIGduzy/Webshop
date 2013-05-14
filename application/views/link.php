@@ -5,9 +5,18 @@
 			switch ($_SESSION['userrole'])
 			{
 				case "administrator":
-					echo "<li><a href='../administrators/viewall'>gebruikers</a></li>";
-					echo "<li><a href='../administrators/add_user'>add user</a></li>";
-					echo "<li><a href='../administrators/add_product'>add product</a></li>";
+					echo "<li><a href='".BASE_URL."administrators/viewall'>
+								gebruikers
+							  </a>
+						  </li>";
+					echo "<li><a href='".BASE_URL."administrators/add_user'>
+								voeg toe
+							  </a>
+						  </li>";
+					echo "<li><a href='".BASE_URL."administrators/add_product'>
+								add product
+							  </a>
+						  </li>";
 					echo "<li><a href=''>Admin4</a></li>";
 					echo "<li><a href=''>Admin5</a></li>";
 					echo "<li><a href=''>Admin6</a></li>";
