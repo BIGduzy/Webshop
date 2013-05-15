@@ -28,7 +28,7 @@
 					echo "<li><a href=''>root4</a></li>";
 				break;
 			}
-			echo "<li><a href='../users/logout'>logout</a></li>";
+			echo "<li><a href='".BASE_URL."users/logout'>logout</a></li>";
 		}
 		else
 		{

@@ -29,9 +29,9 @@ td, th
 </style>
 <script type='text/javascript'>
 	$('document').ready(function(){
-		$("tr:even").addClass("even");
-		$("tr:odd").addClass("odd");
-		$("tr").hover(
+		$(".articles tr:even").addClass("even");
+		$(".articles tr:odd").addClass("odd");
+		$(".articles tr").hover(
 			function(){
 				$(this).toggleClass('highlight');
 			},
@@ -43,12 +43,13 @@ td, th
 </script>
 
 <h3><?php echo $header; ?></h3>
-<table>
+<table class='articles'>
 	<tr>
 		<th>artikelnr.</th>
 		<th>productfoto</th>
 		<th>productnaam</th>
 		<th>prijs</th>
+		<th>winkelwagen</th>
 	</tr>
 	<?php echo $products; ?>
 </table>

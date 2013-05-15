@@ -1,21 +1,23 @@
 <script type='text/javascript'>
 	$('document').ready(function(){
 		$('#login').click(function(){
-			$('#dialogformlogin').dialog('open');
+			$('#dialogform_login').dialog('open');
 		});
-		
-		$('#dialogformlogin').dialog(
+
+		$('#register').click(function(){
+			$('#dialogform_register').dialog('open');
+		});
+
+		$('#dialogform_login').dialog(
 		{
+			width: 400,
 			autoOpen:false,
 			modal:true
 		});
-		
-		$('#register').click(function(){
-			$('#dialogformregister').dialog('open');
-		});
-		
-		$('#dialogformregister').dialog(
+
+		$('#dialogform_register').dialog(
 		{
+			width: 400,
 			autoOpen:false,
 			modal:true
 		});
@@ -33,11 +35,15 @@ button
 	float:right;
 	background-color:RGBA(214,214,214,1);
 }
-#space
+div#space
 {
 	border:0px solid black;
 	float:right;
 	width:2em;
+}
+#dialogform-login dialogform-register
+{
+	font-size:0.8em;
 }
 </style>
 
@@ -45,7 +51,7 @@ button
 <button id='register'>register</button>
 <div id='space'>|</div>
 <button id='login'>login</button>
-<div id='dialogformlogin'>
+<div id='dialogform_login'>
 <table>
 	<form action='<?php echo BASE_URL; ?>users/login' method='post' >
 		<tr>
@@ -58,61 +64,62 @@ button
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td><input type='submit' name='submit' value='go!' /></td>
+			<td><input type='submit' name='submit' value='login' /></td>
 		</tr>	
 	</form>
 </table>
 </div>
-<div id='dialogformregister'>
+
+<div id='dialogform_register'>
 <table>
 	<form action='../users/register' method='post' >
 		<tr>
-			<td>Emailadres</td>
+			<td>emailadres</td>
 			<td><input type='text' name='emailaddress' /></td>
 		</tr>
 		<tr>
-			<td>Wachtword</td>
-			<td><input type='password' name='password' /></td>
-		</tr>
+			<td>wachtwoord</td>
+			<td><input type='text' name='password' /></td>
+		</tr>		
 		<tr>
-			<td>Voornaam</td>
+			<td>voornaam</td>
 			<td><input type='text' name='firstname' /></td>
 		</tr>
 		<tr>
-			<td>Tussenvoegsel</td>
+			<td>tussenvoegsel</td>
 			<td><input type='text' name='infix' /></td>
 		</tr>
 		<tr>
-			<td>Achternaam</td>
+			<td>achternaam</td>
 			<td><input type='text' name='surname' /></td>
+		</tr>
+		<tr>
+			<td>straat</td>
+			<td><input type='text' name='street' /></td>
+		</tr>
+		<tr>
+			<td>huisnummer</td>
+			<td><input type='text' name='housenumber' /></td>
+		</tr>
+		<tr>
+			<td>postcode</td>
+			<td><input type='text' name='zipcode' /></td>
 		</tr>
 		<tr>
 			<td>Woonplaats</td>
 			<td><input type='text' name='residence' /></td>
 		</tr>
 		<tr>
-			<td>Straat</td>
-			<td><input type='text' name='street' /></td>
-		</tr>
-		<tr>
-			<td>Huisnummer</td>
-			<td><input type='text' name='housenumber' /></td>
-		</tr>
-		<tr>
-			<td>Postcode</td>
-			<td><input type='text' name='zipcode' /></td>
-		</tr>
-		<tr>
-			<td>Telefoon</td>
+			<td>telefoon</td>
 			<td><input type='text' name='phonenumber' /></td>
 		</tr>
 		<tr>
-			<td>Mobiel</td>
-			<td><input type='text' name='mobilephone' /></td>
+			<td>mobiel</td>
+			<td><input type='text' name='mobilephonenumber' /></td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td><input type='submit' name='submit' value='go!' /></td>
+			<td><input type='submit' name='submit' value='register' /></td>
 		</tr>	
 	</form>
 </table>
