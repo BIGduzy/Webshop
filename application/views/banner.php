@@ -21,6 +21,10 @@
 			autoOpen:false,
 			modal:true
 		});
+		
+		$('#shopping_cart').click(function(){
+			window.location.href = '<?php echo BASE_URL; ?>customers/shopping_cart';
+		});
 	});
 </script>
 <style>
@@ -51,6 +55,9 @@ div#space
 <button id='register'>register</button>
 <div id='space'>|</div>
 <button id='login'>login</button>
+<div id='space'>|</div>
+<button id='shopping_cart'>shoppingcart</button>
+
 <div id='dialogform_login'>
 <table>
 	<form action='<?php echo BASE_URL; ?>users/login' method='post' >

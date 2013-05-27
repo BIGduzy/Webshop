@@ -2,22 +2,22 @@
 .odd
 {
 	background-color :RGBA(214,214,214,1);
-    border :1px solid red;
-	font-size:1em;
+    //border :1px solid black;
+	//font-size:1em;
 }
 
 .even
 {
 	background-color:RGBA(214,214,214,0.5);
-	border:1px solid black;
-	font-size:1em;
+	//border:1px solid black;
+	//font-size:1em;
 }
 
 .highlight
 {
 	background-color:RGBA(200,200,200,1.0);
-	border:1px solid black;
-	font-size:1em;
+	//border:1px solid black;
+	//font-size:1em;
 }
 
 td, th
@@ -48,15 +48,17 @@ td, th
 		<th>artikelnr.</th>
 		<th>productfoto</th>
 		<th>productnaam</th>
+		<th>omschrijving</th>
+		<th>aantal</th>
 		<th>prijs</th>
-		<th>winkelwagen</th>
+		<th>totaal</th>
 	</tr>
-	<?php echo $products; ?>
+	<?php echo $shopping_cart_items; ?>
+	<tr><td colspan='6'></td><td>&euro; <?php echo $totalprice; ?></td>
 </table>
-<?php echo $pagenumbers; ?>
-<?php 
-		if (isset($_SESSION['tmp_cart']))
-		{
-			var_dump($_SESSION['tmp_cart']->get_items());
-		}
+<?php
+	if ( isset($_SESSION['tmp_cart']))
+	{
+		//var_dump($_SESSION['tmp_cart']->get_items());
+	} 
 ?>
