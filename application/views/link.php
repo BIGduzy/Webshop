@@ -32,7 +32,7 @@
 		}
 		else
 		{
-			echo "<li><a href=''>TODO1</a></li>";
+			echo "<li><a href='".BASE_URL."users/homepage'>Home</a></li>";
 			echo "<li><a href=''>TODO2</a></li>";
 			echo "<li><a href=''>TODO3</a></li>";
 			echo "<li><a href=''>TODO4</a></li>";

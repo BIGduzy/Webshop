@@ -32,5 +32,54 @@
 							 'aantal' => $number);
 	 var_dump($this->items);
 	}
+
+	public function remove_from_cart($product, $number)
+	{
+		//var_dump($product);exit();		
+		foreach ($this->items as $key => $value)
+		{
+			if ($value['id'] == $product[0]['Product']['product_id'])
+			{
+				//echo $this->items[$key]['id'];exit();				
+				if ( $value['aantal'] > 1)
+				{
+					$this->items[$key]['aantal'] -= $number;
+					return;
+				}
+				else
+				{
+					unset($this->items[$key]);
+					return;
+				}
+			}
+		}
+	}
+
+	public function total_products()
+	{
+		$total = 0;
+		foreach ($this->items as $value)
+		{
+			$total += $value['aantal'];
+		}
+		return $total;
+	}
+
+	public function empty_cart()
+	{
+		unset($this->items);
+	}
+
+	public function remove_item_from_cart($id)
+	{
+		foreach ($this->items as $key => $value)
+		{
+			if ($value['id'] == $id)
+			{
+				unset($this->items[$key]);
+				return;
+			}
+		}
+	}
  }
 ?>
