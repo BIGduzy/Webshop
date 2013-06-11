@@ -20,7 +20,7 @@
 		$this->check_if_exists_shoppingcart();
 		$product = $this->_model->find_product_by_id($id);
 		$_SESSION["tmp_cart"]->add_to_cart($product,$number);
-		header("location:".BASE_URL."users/homepage/test");
+		header("location:".BASE_URL."users/homepage/0/1");
 	}
 
 	public function add_to_cart_shoppingcart($id, $number=1)
@@ -38,7 +38,7 @@
 		header("location:".BASE_URL."customers/shopping_cart");
 	}
 
-	public function shopping_cart()
+	public function shopping_cart($notify=0)
 	{
 		$this->check_if_exists_shoppingcart();
 		$this->set('header', 'Hieronder staat de inhoud van uw winkelwagen');
@@ -86,28 +86,64 @@
 		else
 		{
 			$shopping_cart_items = "<tr>
-										<td colspan='8'>
+										<td colspan='9'>
 											Op dit moment heeft u geen producten
 											in uw winkelwagen
 										</td>
 									</tr>";
 			$totalprice = "0.00";
 		}
+		$shopping_cart_items .= "<tr>
+									<td colspan='4'></td>
+									<td></td>
+									<td>
+										<a href='".BASE_URL."customers/empty_cart'>
+											<img src='".BASE_URL."public/img/drop.png'
+												 alt='drop.png' />
+										</a>
+									</td>
+									<td>
+									</td>
+									<td>&euro; ".$totalprice."</td>
+									<td></td>
+								 </tr>";
 		$this->set('shopping_cart_items', $shopping_cart_items);
-		$this->set('totalprice', $totalprice);		
+		$this->set('totalprice', $totalprice);
+		$this->set('notify', $notify);
 	}
 
-	public function empty_cart()
+	public function empty_cart($notify=0)
 	{
 		//echo "Hallo"; exit();
 		$_SESSION['tmp_cart']->empty_cart();
-		header("location:".BASE_URL."customers/shopping_cart");
+		header("location:".BASE_URL."customers/shopping_cart/".$notify);
 	}
 
 	public function remove_item_from_cart($id)
 	{
 		$_SESSION['tmp_cart']->remove_item_from_cart($id);
 		header("location:".BASE_URL."customers/shopping_cart");
+	}
+
+	public function check_login()
+	{
+		if (isset($_SESSION['userrole_id']))
+		{
+			//Ga verder met de bestelling
+			if (sizeof($_SESSION['tmp_cart']->get_items()) > 0)
+			{
+				$this->_model->insert_int_orders();
+				$this->empty_cart(2);
+			}
+			else
+			{
+				header("location:".BASE_URL."customers/shopping_cart/3");
+			}
+		}
+		else
+		{
+			header("location:".BASE_URL."customers/shopping_cart/1");
+		}
 	}
  }
 ?>

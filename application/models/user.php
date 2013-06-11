@@ -9,10 +9,6 @@
 							 WHERE `users`.`user_id` = `userroles`.`userrole_id`");
 	}
 
-
-
-
-
 	public function select_user_from_login($post)
 	{
 		$query = "SELECT *
@@ -61,6 +57,26 @@
 	{
 		$query = "SELECT * FROM `products`";
 		return $this->query($query);
+	}
+	
+	public function save_cart()
+	{
+		$query = "SELECT * FROM `user_cart` WHERE `user_id` ='".$_SESSION["userrole_id"]."'";
+		
+		$cart = $this->query($query);
+		if (isset($cart))
+		{
+			
+		}
+		else
+		{
+			$query = "INSERT INTO `user_carts` (`user_id`,
+				`								`cart_content`,
+												`insertion_date`)
+										VALUES ('".$_SESSION['userrole_id']."',
+												'',
+												'')";
+		}
 	}
  }
 ?>

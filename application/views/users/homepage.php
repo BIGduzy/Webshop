@@ -40,13 +40,16 @@ td, th
 
 </style>
 <script type='text/javascript'>
+	var show = <?php echo $notify; ?>;
+	
 	$('document').ready(function(){
-		alert(location.pathname);
-		$("#product_toevoegen").fadeIn(800, function()
+		if (show)
 		{
-			$(this).fadeOut(3000);
-		});
-
+			$("#product_toevoegen").fadeIn(800, function()
+			{
+				$(this).fadeOut(3000);
+			});
+		}		
 		$(".articles tr:even").addClass("even");
 		$(".articles tr:odd").addClass("odd");
 		$(".articles tr").hover(

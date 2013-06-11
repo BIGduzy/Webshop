@@ -1,65 +1,65 @@
-<style>
-.odd
-{
-	background-color :RGBA(214,214,214,1);
-    //border :1px solid black;
-	//font-size:1em;
-}
+<?php
+ class Customer extends Model
+ {
+	public function find_product_by_id($id)
+	{
+		$query = "SELECT * FROM `products` WHERE `product_id` = '".$id."'";
+		//echo $query;exit();
+		return $this->query($query);
+	}
 
-.even
-{
-	background-color:RGBA(214,214,214,0.5);
-	//border:1px solid black;
-	//font-size:1em;
-}
+	public function insert_int_orders()
+	{
+		date_default_timezone_set("Europe/Amsterdam");
+		$date = Date("Y-m-d H:i:s");
+		$expiration_date = date("Y-m-d H:i:s", mktime( date("H"),
+													   date("i"),
+													   date("s"),
+													   date("m"),
+													   date("d") + 14,
+													   date("Y")));
+		$delivery_date = date("Y-m-d H:i:s", mktime( date("H"),
+													   date("i"),
+													   date("s"),
+													   date("m"),
+													   date("d") + 3,
+													   date("Y")));
 
-.highlight
-{
-	background-color:RGBA(200,200,200,1.0);
-	//border:1px solid black;
-	//font-size:1em;
-}
 
-td, th
-{
-	padding:0.3em 0.5em;
-	text-align:center;
-}
+		$query = "INSERT INTO `orders` ( `order_id`,
+									     `user_id`,
+									     `order_date`,
+									     `expiration_date`,
+									     `delivery_date`,
+									     `shipping_method`,
+									     `shipping_cost`)
+							VALUES      ( NULL,
+										  '".$_SESSION['userrole_id']."',
+										  '".$date."',
+										  '".$expiration_date."',
+										  '".$delivery_date."',
+										  'bezorgen',
+										  '2.5')";
+		$this->query($query);
 
-</style>
-<script type='text/javascript'>
-	$('document').ready(function(){
-		$(".articles tr:even").addClass("even");
-		$(".articles tr:odd").addClass("odd");
-		$(".articles tr").hover(
-			function(){
-				$(this).toggleClass('highlight');
-			},
-			function(){
-				$(this).toggleClass('highlight');
-			}
-		);
-	});
-</script>
+		$order_id = $this->find_last_inserted_id();
 
-<h3><?php echo $header; ?></h3>
-<table class='articles'>
-	<tr>
-		<th>artnr.</th>
-		<th>productfoto</th>
-		<th>productnaam</th>
-		<th>omschrijving</th>
-		<th>aantal</th>
-		<th>&nbsp;</th>
-		<th>prijs</th>
-		<th>totaal</th>
-	</tr>
-	<?php echo $shopping_cart_items; ?>
-	<tr><td colspan='4'></td><td></td>
-	<td>
-		<a href='<?php echo BASE_URL; ?>customers/empty_cart'>
-			<img src='<?php echo BASE_URL; ?>public/img/drop.png' alt='drop.png' />
-		</a>
-	<td>
-	</td></td><td>&euro; <?php echo $totalprice; ?></td>
-</table>
+		foreach ($_SESSION['tmp_cart']->get_items() as $value)
+		{
+			$query = "INSERT INTO `orderrules`( `order_id`,
+												`product_id`,
+												`price_sold`,
+												`quantity`,
+												`discount`)
+								VALUES		  ( '".$order_id."',
+												'".$value['id']."',
+												'".$value['price']."',
+												'".$value['aantal']."',
+												'0.00')";
+			//echo "<br />".$query;
+			$this->query($query);
+		}
+		//var_dump($_SESSION['tmp_cart']->get_items());
+	}
+ }
+?>
