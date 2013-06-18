@@ -1,65 +1,125 @@
-<?php
- class Customer extends Model
- {
-	public function find_product_by_id($id)
-	{
-		$query = "SELECT * FROM `products` WHERE `product_id` = '".$id."'";
-		//echo $query;exit();
-		return $this->query($query);
-	}
+<style>
+.odd
+{
+	background-color :RGBA(214,214,214,1);
+    //border :1px solid black;
+	//font-size:1em;
+}
 
-	public function insert_int_orders()
-	{
-		date_default_timezone_set("Europe/Amsterdam");
-		$date = Date("Y-m-d H:i:s");
-		$expiration_date = date("Y-m-d H:i:s", mktime( date("H"),
-													   date("i"),
-													   date("s"),
-													   date("m"),
-													   date("d") + 14,
-													   date("Y")));
-		$delivery_date = date("Y-m-d H:i:s", mktime( date("H"),
-													   date("i"),
-													   date("s"),
-													   date("m"),
-													   date("d") + 3,
-													   date("Y")));
+.even
+{
+	background-color:RGBA(214,214,214,0.5);
+	//border:1px solid black;
+	//font-size:1em;
+}
 
+.highlight
+{
+	background-color:RGBA(200,200,200,1.0);
+	//border:1px solid black;
+	//font-size:1em;
+}
 
-		$query = "INSERT INTO `orders` ( `order_id`,
-									     `user_id`,
-									     `order_date`,
-									     `expiration_date`,
-									     `delivery_date`,
-									     `shipping_method`,
-									     `shipping_cost`)
-							VALUES      ( NULL,
-										  '".$_SESSION['userrole_id']."',
-										  '".$date."',
-										  '".$expiration_date."',
-										  '".$delivery_date."',
-										  'bezorgen',
-										  '2.5')";
-		$this->query($query);
+td, th
+{
+	padding:0.3em 0.5em;
+	text-align:center;
+}
 
-		$order_id = $this->find_last_inserted_id();
+#eerst_inloggen, #order_placed
+{
+	background-color:RGBA(255,0,0,0.5);
+	padding:1em;
+	margin:2em 0em;
+	display:none;
+	height:10px;
+	width:570px;
+}
 
-		foreach ($_SESSION['tmp_cart']->get_items() as $value)
+#order_placed
+{
+	background-color:RGBA(0,255,0,0.5);
+	padding:1em;
+	margin:2em 0em;
+	display:none;
+	height:30px;
+	width:570px;
+}
+
+#empty_shopping_cart
+{
+	background-color:RGBA(255,0,0,0.5);
+	padding:1em;
+	margin:2em 0em;
+	display:none;
+	height:30px;
+	width:500px;
+}
+
+</style>
+<script type='text/javascript'>
+	var show = <?php echo $notify; ?>;
+
+	$('document').ready(function(){
+		if (show == 1)
 		{
-			$query = "INSERT INTO `orderrules`( `order_id`,
-												`product_id`,
-												`price_sold`,
-												`quantity`,
-												`discount`)
-								VALUES		  ( '".$order_id."',
-												'".$value['id']."',
-												'".$value['price']."',
-												'".$value['aantal']."',
-												'0.00')";
-			//echo "<br />".$query;
-			$this->query($query);
+			$("#eerst_inloggen").fadeIn(3000, function()
+			{
+				$(this).fadeOut(800);
+			});
 		}
-		//var_dump($_SESSION['tmp_cart']->get_items());
-	}
- }
-?>
+		else if (show == 2)
+		{
+			$("#order_placed").fadeIn(3000, function()
+			{
+				$(this).fadeOut(4000);
+			});
+		}
+		else if (show == 3)
+		{
+			$("#empty_shopping_cart").fadeIn(3000, function()
+			{
+				$(this).fadeOut(4000);
+			});
+		}
+	
+		$(".articles tr:even").addClass("even");
+		$(".articles tr:odd").addClass("odd");
+		$(".articles tr").hover(
+			function(){
+				$(this).toggleClass('highlight');
+			},
+			function(){
+				$(this).toggleClass('highlight');
+			}
+		);
+	});
+</script>
+
+<h3><?php echo $header; ?></h3>
+<div id='eerst_inloggen'>U bent nog niet ingelogd. Voordat u kunt bestellen moet u eerst inloggen</div>
+<div id='order_placed'>Uw bestelling is gedaan. Uw boodschappenkar is leeggemaakt u krijgt via de mail een bevestiging van de gekochte producten.</div>
+<div id='empty_shopping_cart'>Uw boodschappenkar is leeg. U dient eerst producten in uw boodschappenkar te plaatsen</div>
+<table class='articles'>
+	<form action='<?php echo BASE_URL; ?>customers/check_login' method='post' >
+		<tr>
+			<th>artnr.</th>
+			<th>productfoto</th>
+			<th>productnaam</th>
+			<th>omschrijving</th>
+			<th>aantal</th>
+			<th>&nbsp;</th>
+			<th>prijs</th>
+			<th>totaal</th>
+			<th>&nbsp;</th>
+		</tr>
+		<?php echo $shopping_cart_items; ?>
+		<tr>
+			<td colspan='9'>
+				<input type='submit' 
+					   value='bestel'
+					   name='submit' />
+			</td>
+		</tr>
+	</form>
+</table>

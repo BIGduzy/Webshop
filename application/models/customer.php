@@ -61,5 +61,15 @@
 		}
 		//var_dump($_SESSION['tmp_cart']->get_items());
 	}
+
+	public function find_orders_by_customer_id()
+	{
+		$query = "SELECT * 
+				  FROM 	`orders`, `orderrules`, `products`
+				  WHERE `orders`.`user_id`  		= '".$_SESSION['userrole_id']."'
+				  AND 	`orders`.`order_id` 		= `orderrules`.`order_id`
+				  AND 	`orderrules`.`product_id` 	= `products`.`product_id`";
+		return $this->query($query);
+	}
  }
 ?>

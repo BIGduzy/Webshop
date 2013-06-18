@@ -1,7 +1,6 @@
 <?php
  class User extends Model
- {
-
+ {		
 	public function select_all()
 	{
 		return $this->query("SELECT *
@@ -58,24 +57,59 @@
 		$query = "SELECT * FROM `products`";
 		return $this->query($query);
 	}
-	
+
 	public function save_cart()
 	{
-		$query = "SELECT * FROM `user_cart` WHERE `user_id` ='".$_SESSION["userrole_id"]."'";
-		
+		date_default_timezone_set("Europe/Amsterdam");
+		$date = Date("Y-m-d H:i:s");		
+		$query = "SELECT * 
+				  FROM `user_carts` 
+				  WHERE `user_id` = '".$_SESSION["userrole_id"]."'";
 		$cart = $this->query($query);
-		if (isset($cart))
-		{
-			
+		//echo $cart." | ".empty($cart);exit();
+
+		//Maak een nieuw karretje met inhoud
+		$serialized_cart = serialize($_SESSION['tmp_cart']->get_items());
+		//echo $serialized_cart; exit();
+
+		if ( empty($cart))
+		{			
+			$query = "INSERT INTO `user_carts` ( `user_id`,
+												 `cart_content`,
+												 `insertion_date`)
+										VALUES ( '".$_SESSION['userrole_id']."',
+												 '".$serialized_cart."',
+												 '".$date."')";	
+			$this->query($query);
 		}
 		else
 		{
-			$query = "INSERT INTO `user_carts` (`user_id`,
-				`								`cart_content`,
-												`insertion_date`)
-										VALUES ('".$_SESSION['userrole_id']."',
-												'',
-												'')";
+			$query = "UPDATE `user_carts` 
+					  SET `cart_content` 	= '".$serialized_cart."',
+						  `insertion_date`	= '".$date."'
+					  WHERE `user_id` = '".$_SESSION['userrole_id']."'";
+			$this->query($query);
+			//echo "45".$serialized_cart;exit();
+		}		
+	}
+
+	public function get_saved_usercart()
+	{
+		$query = "SELECT * 
+				  FROM `user_carts` 
+				  WHERE `user_id` = '".$_SESSION["userrole_id"]."'";
+
+		$cart = $this->query($query, 1);
+
+		if (!empty($cart))
+		{
+			$cart_content = unserialize($cart['User_cart']['cart_content']);
+
+			foreach ($cart_content as $value)
+			{
+				echo "Hallo";
+				$_SESSION['tmp_cart']->set_items($value);
+			}
 		}
 	}
  }

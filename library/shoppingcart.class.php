@@ -10,6 +10,17 @@
 		return $this->items;
 	}
 
+	public function set_items($product)
+	{
+		//var_dump($product);exit();
+		$this->items[] = array( 'id' => $product['id'],
+								'name' => $product['name'],
+								'description' => $product['description'],
+								'price' => $product['price'],
+								'foto_name' => $product['foto_name'],
+								'aantal' => $product['aantal']);
+	}
+
 	public function add_to_cart($product, $number)
 	{
 	 //var_dump($product);

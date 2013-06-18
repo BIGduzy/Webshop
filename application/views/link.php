@@ -57,6 +57,7 @@
 				break;
 				case "customer":
 					echo "<li><a href='".BASE_URL."users/homepage'>producten</a></li>";
+					echo "<li><a href='".BASE_URL."customers/buying_history'>koop historie</a></li>";
 				break;
 				case "root":
 					echo "<li><a href=''>root1</a></li>";
@@ -65,7 +66,7 @@
 					echo "<li><a href=''>root4</a></li>";
 				break;
 			}
-			echo "<li><a href='../users/logout'>logout</a></li>";
+			echo "<li><a href='".BASE_URL."users/logout'>logout</a></li>";
 		}
 		else
 		{

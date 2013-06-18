@@ -132,6 +132,7 @@
 			//Ga verder met de bestelling
 			if (sizeof($_SESSION['tmp_cart']->get_items()) > 0)
 			{
+				//echo "Er zit iets in de shoppingcart";exit();
 				$this->_model->insert_int_orders();
 				$this->empty_cart(2);
 			}
@@ -144,6 +145,45 @@
 		{
 			header("location:".BASE_URL."customers/shopping_cart/1");
 		}
+	}
+
+	public function buying_history()
+	{
+		$this->set("header", "Uw persoonlijke aankopen");
+
+		$orders = "";
+
+		$found_products = $this->_model->find_orders_by_customer_id();
+		var_dump($found_products);
+
+		$id = '';
+		foreach ($found_products as $value)
+		{
+			if ($id != $value['Order']['order_id'])
+			{
+				$orders .= "<tr class='articles'>
+								<td colspan='2'>order id: ".$value['Order']['order_id']."</td>
+								<td colspan='3'>order date: ".$value['Order']['order_date']."</td>
+							</tr>";
+				$id = $value['Order']['order_id'];
+			}
+			$orders .= "<tr>
+							<td>".$value['Product']['product_id']."</td>
+							<td>
+								<img src='".BASE_URL.
+										  "public/fotos/thumbnails/tn_".
+										  $value['Product']['foto_name']."' />
+							</td>
+							<td>".$value['Product']['product_name']."</td>
+							<td>".$value['Product']['product_description']."</td>
+							<td>".$value['Orderrule']['quantity']."</td>
+							<td>".$value['Orderrule']['price_sold']."</td>
+							<td>".$value['Orderrule']['quantity'] *
+								  $value['Orderrule']['price_sold']."</td>
+							<td>".$value['Order']['order_id']."</td>
+						</tr>";
+		}
+		$this->set("orders", $orders);		
 	}
  }
 ?>
